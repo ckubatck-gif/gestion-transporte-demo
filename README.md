@@ -6,7 +6,7 @@ Aplicación web progresiva (PWA) de demostración para autónomos y pequeños ne
 
 ## Funcionalidades demostradas
 
-- Gestión de contactos y seguimiento comercial.
+- Gestión de contactos y seguimiento comercial, con registros ficticios precargados en la primera visita.
 - Elaboración y seguimiento de presupuestos con partidas, IVA y exportación a PDF mediante impresión del navegador.
 - Agenda mensual, semanal y diaria para citas y visitas de valoración.
 - Recordatorios de llamadas y tareas.
@@ -20,6 +20,7 @@ Aplicación web progresiva (PWA) de demostración para autónomos y pequeños ne
 - Los recordatorios se comprueban mientras la aplicación está abierta. Para avisos persistentes se pueden exportar eventos al calendario.
 - La agenda avisa de solapamientos, pero no impide guardar dos citas que coincidan.
 - El formulario público es solo una maqueta de demostración: no envía solicitudes ni recoge datos personales.
+- El apartado interno de Solicitudes utiliza una bandeja ficticia en el propio navegador; permite simular la conversión de una consulta en contacto y recordatorio, sin servidor ni buzón externo.
 - No incluye facturación fiscal, pagos, integración real con WhatsApp ni envío automático de emails.
 
 ## Ejecución local
