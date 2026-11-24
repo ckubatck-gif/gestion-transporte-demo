@@ -238,40 +238,8 @@
     if (cambio && ruta().a === 'hoy' && !$('#dlg').open) refrescar();
   }
 
-  /* ---------- Buzón de solicitudes ---------- */
-  const cab = () => ({ Authorization: 'Bearer ' + M.getClave() });
-  async function sincronizar() {
-    if (M.CFG.demoMode) { M.toast('El buzón de esta demo utiliza solicitudes ficticias.'); return; }
-    if (!M.getClave()) { M.toast('Primero guarda la clave del buzón en Ajustes', 'err'); location.hash = '#/ajustes'; return; }
-    const btn = $('[data-act="sync"]');
-    if (btn) btn.disabled = true;
-    try {
-      const r = await fetch('api/solicitudes', { headers: cab(), cache: 'no-store' });
-      const j = await r.json().catch(() => ({}));
-      if (r.status === 401) M.toast('La clave no es correcta', 'err');
-      else if (r.status === 503) M.toast('El buzón no está configurado en el servidor (falta la clave o el almacenamiento)', 'err');
-      else if (!r.ok) M.toast('No se pudo consultar el buzón (código ' + r.status + ')', 'err');
-      else {
-        const b = M.getBuzon();
-        const imp = new Set(b.importadas || []);
-        const nuevas = (j.items || []).filter((s) => !imp.has(s.id));
-        // reintenta borrar en el servidor las ya importadas que sigan allí
-        for (const s of (j.items || [])) if (imp.has(s.id)) fetch('api/solicitudes?id=' + encodeURIComponent(s.id), { method: 'DELETE', headers: cab() }).catch(() => {});
-        M.setBuzon({ pendientes: nuevas, cuando: M.ldt(new Date()), importadas: Array.from(imp).slice(-500) });
-        M.toast(nuevas.length ? nuevas.length + (nuevas.length === 1 ? ' solicitud nueva' : ' solicitudes nuevas') : 'No hay solicitudes nuevas');
-        if (j.ilegibles) M.toast(j.ilegibles + ' solicitud(es) no se pudieron descifrar (¿cambió la clave del servidor?)', 'err');
-      }
-    } catch (e) {
-      M.toast('No hay conexión con el servidor', 'err');
-    }
-    render();
-  }
+  /* ---------- Buzón de solicitudes: datos locales de demostración ---------- */
   const digs = (t) => String(t || '').replace(/\D/g, '');
-  async function quitarDelServidor(id) {
-    if (M.CFG.demoMode) return true;
-    const r = await fetch('api/solicitudes?id=' + encodeURIComponent(id), { method: 'DELETE', headers: cab() });
-    return r.ok || r.status === 404;
-  }
   async function aceptarSolicitud(id) {
     const b = M.getBuzon();
     const s = b.pendientes.find((x) => x.id === id);
@@ -291,15 +259,12 @@
     b.importadas = (b.importadas || []).concat([id]);
     b.pendientes = b.pendientes.filter((x) => x.id !== id);
     M.setBuzon(b);
-    let ok = Boolean(M.CFG.demoMode);
-    if (!M.CFG.demoMode) { try { ok = await quitarDelServidor(id); } catch (e) { ok = false; } }
-    M.toast((existente ? 'Asociada al cliente existente ' + c.nombre : 'Cliente creado') + ' y llamada programada para ' + M.fCuando(r.cuando) + (ok ? '' : ' (no se pudo borrar del buzón; se reintentará)'));
+    M.toast((existente ? 'Asociada al cliente existente ' + c.nombre : 'Cliente creado') + ' y llamada programada para ' + M.fCuando(r.cuando));
     location.hash = '#/clientes/' + c.id;
   }
   async function descartarSolicitud(id) {
     if (!(await M.confirmar('¿Descartar esta solicitud? Se borra del buzón y no se puede recuperar.', { ok: 'Descartar', peligro: true }))) return;
     try {
-      if (!M.CFG.demoMode && !(await quitarDelServidor(id))) throw new Error('x');
       const b = M.getBuzon();
       b.pendientes = b.pendientes.filter((x) => x.id !== id);
       M.setBuzon(b);
