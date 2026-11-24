@@ -1,7 +1,7 @@
 'use strict';
 const VERSION = 'gestion-transporte-demo-v1';
 const BASE = ['./', 'index.html', 'solicitar.html', 'styles.css', 'config.js', 'core.js', 'views.js', 'main.js',
-  'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png'];
+  'manifest.webmanifest', 'icons/icon.svg'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(BASE)).then(() => self.skipWaiting()));
 });
