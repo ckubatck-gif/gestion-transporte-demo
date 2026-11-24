@@ -188,8 +188,12 @@
       }];
       inbox.cuando = M.ldt(new Date());
       inbox.demoInitialized = true;
-      M.setBuzon(inbox);
     }
+    // Limpia cualquier teléfono ficticio que quedara guardado por una versión previa de la demo.
+    inbox.pendientes.forEach((s) => {
+      if (String(s.id || '').startsWith('demo-')) s.telefono = '';
+    });
+    M.setBuzon(inbox);
   }
 
 
