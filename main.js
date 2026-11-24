@@ -279,7 +279,7 @@
     const recibido = new Date();
     const fecha = M.ymd(M.addDays(recibido, 5));
     b.pendientes.unshift({
-      id: M.uid(), nombre: 'Paula Demostración', telefono: '600000505', email: 'paula@example.invalid',
+      id: M.uid(), nombre: 'Paula Demostración', telefono: '', email: 'paula@example.invalid',
       servicio: 'Transporte', origen: 'Zona este', destino: 'Zona centro', fecha,
       franja: 'Por la tarde', detalles: 'Traslado de varios muebles. Datos inventados para la demo.',
       recibido: recibido.toISOString(), fueraHorario: false
