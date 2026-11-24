@@ -1,0 +1,9 @@
+{
+  "name": "gestion-transporte-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo de portfolio: gestión de transporte",
+  "engines": {
+    "node": ">=20"
+  }
+}
