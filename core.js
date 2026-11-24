@@ -115,6 +115,11 @@
     return normalizar(null);
   }
   M.db = cargar();
+  // Evita que los registros de ejemplo activen llamadas reales en la demo pública.
+  if (M.CFG.demoMode) {
+    const idsDemo = new Set(['demo-cliente-1', 'demo-cliente-2', 'demo-cliente-3']);
+    M.db.clientes.forEach((c) => { if (idsDemo.has(c.id)) c.telefono = ''; });
+  }
   let avisoGuardado = false;
   M.guardar = () => {
     try {
@@ -140,9 +145,9 @@
     const today = M.ymd(now);
     const tomorrow = M.ymd(M.addDays(now, 1));
     const later = M.ymd(M.addDays(now, 4));
-    const c1 = { id: 'demo-cliente-1', nombre: 'Lucía Ejemplo', telefono: '600000101', email: 'lucia@example.invalid', direccion: 'Zona norte', estado: 'activo', notas: 'Cliente ficticio para mostrar el seguimiento comercial.', creado: M.ldt(now) };
-    const c2 = { id: 'demo-cliente-2', nombre: 'Marcos Demo', telefono: '600000202', email: 'marcos@example.invalid', direccion: 'Zona centro', estado: 'lead', notas: 'Solicitó información sobre un traslado.', creado: M.ldt(now) };
-    const c3 = { id: 'demo-cliente-3', nombre: 'Sofía Muestra', telefono: '600000303', email: 'sofia@example.invalid', direccion: 'Zona sur', estado: 'activo', notas: 'Datos de ejemplo.', creado: M.ldt(now) };
+    const c1 = { id: 'demo-cliente-1', nombre: 'Lucía Ejemplo', telefono: '', email: 'lucia@example.invalid', direccion: 'Zona norte', estado: 'activo', notas: 'Cliente ficticio para mostrar el seguimiento comercial.', creado: M.ldt(now) };
+    const c2 = { id: 'demo-cliente-2', nombre: 'Marcos Demo', telefono: '', email: 'marcos@example.invalid', direccion: 'Zona centro', estado: 'lead', notas: 'Solicitó información sobre un traslado.', creado: M.ldt(now) };
+    const c3 = { id: 'demo-cliente-3', nombre: 'Sofía Muestra', telefono: '', email: 'sofia@example.invalid', direccion: 'Zona sur', estado: 'activo', notas: 'Datos de ejemplo.', creado: M.ldt(now) };
     M.db.clientes = [c1, c2, c3];
     const p1 = {
       id: 'demo-presupuesto-1', numero: 'P-' + now.getFullYear() + '-001', clienteId: c1.id, tipo: 'Mudanza',
@@ -176,7 +181,7 @@
     const inbox = M.getBuzon();
     if (!inbox.demoInitialized) {
       inbox.pendientes = [{
-        id: 'demo-solicitud-1', nombre: 'Daniel Ejemplo', telefono: '600000404', email: 'daniel@example.invalid',
+        id: 'demo-solicitud-1', nombre: 'Daniel Ejemplo', telefono: '', email: 'daniel@example.invalid',
         servicio: 'Mudanza', origen: 'Zona norte', destino: 'Zona centro', fecha: M.ymd(M.addDays(new Date(), 5)),
         franja: 'Por la mañana', detalles: 'Vivienda de dos habitaciones. Datos ficticios.',
         recibido: new Date().toISOString(), fueraHorario: false
