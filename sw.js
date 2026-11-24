@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'gestion-transporte-demo-v1';
+const VERSION = 'gestion-transporte-demo-v2';
 const BASE = ['./', 'index.html', 'solicitar.html', 'styles.css', 'config.js', 'core.js', 'views.js', 'main.js',
   'manifest.webmanifest', 'icons/icon.svg'];
 self.addEventListener('install', (e) => {
