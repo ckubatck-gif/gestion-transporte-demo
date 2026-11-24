@@ -1,6 +1,7 @@
 // Configuración ficticia para la demo de portfolio.
 window.APP_CONFIG = {
   empresa: 'Gestión de Transporte',
+  demoMode: true,
   telefono: '',
   prefijoPais: '34',
   iva: 21,
