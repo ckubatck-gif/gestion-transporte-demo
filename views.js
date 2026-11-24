@@ -39,7 +39,7 @@
       '<small class="sub">' + esc(M.fCuando(r.cuando)) + (c && r.titulo ? ' · ' + esc(c.nombre) : '') + '</small></div>' +
       (vencido ? '<span class="pill danger">Vencido</span>' : '<span class="pill warn">Hoy</span>') +
       '<div class="row">' +
-      (c && c.telefono ? '<a class="btn sm" href="' + esc(M.telHref(c.telefono)) + '">' + ico('tel', 'sm') + ' Llamar</a>' : '') +
+      (c && c.telefono && !M.CFG.demoMode ? '<a class="btn sm" href="' + esc(M.telHref(c.telefono)) + '">' + ico('tel', 'sm') + ' Llamar</a>' : '') +
       '<button class="btn sm primary" data-act="rec-hecho" data-id="' + esc(r.id) + '">Hecho</button>' +
       '<button class="btn sm" data-act="rec-posponer" data-id="' + esc(r.id) + '">Posponer</button>' +
       '<button class="btn sm ghost" data-act="ed-rec" data-id="' + esc(r.id) + '">Editar</button></div></li>';
@@ -211,7 +211,7 @@
     return '<div class="top"><a class="btn sm ghost" href="#/clientes">' + ico('izq', 'sm') + ' Clientes</a><h1>' + esc(c.nombre) + '</h1>' + pillEstadoCliente(c.estado) + '</div>' +
       '<div class="grid2"><section class="card"><h2>Datos</h2><dl class="kv">' +
       '<dt>Teléfono</dt><dd>' + (c.telefono ? esc(c.telefono) : '—') + '</dd><dt>Email</dt><dd>' + (c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : '—') + '</dd><dt>Dirección</dt><dd>' + (c.direccion ? esc(c.direccion) : '—') + '</dd><dt>Alta</dt><dd>' + esc(c.creado ? M.fCorta(M.parseL(c.creado)) : '—') + '</dd></dl>' +
-      '<div class="row noprint" style="margin-top:12px">' + (c.telefono ? '<a class="btn sm primary" href="' + esc(M.telHref(c.telefono)) + '">' + ico('tel', 'sm') + ' Llamar</a><a class="btn sm" href="' + esc(M.waHref(c.telefono)) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
+      '<div class="row noprint" style="margin-top:12px">' + (c.telefono && !M.CFG.demoMode ? '<a class="btn sm primary" href="' + esc(M.telHref(c.telefono)) + '">' + ico('tel', 'sm') + ' Llamar</a><a class="btn sm" href="' + esc(M.waHref(c.telefono)) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
       '<button class="btn sm" data-act="ed-cliente" data-id="' + esc(c.id) + '">Editar</button><button class="btn sm ghost" data-act="del-cliente" data-id="' + esc(c.id) + '">Eliminar</button></div></section>' +
       '<section class="card"><h2>Seguimiento</h2>' + (prox ? '<p><b>Próxima acción:</b> ' + (prox.tipo === 'llamada' ? 'llamar' : 'evento') + ' · ' + esc(M.fCuando(prox.cuando)) + (prox.cuando < ahoraS() ? ' <span class="pill danger">Vencido</span>' : '') + '</p>' : '<p class="sub">No hay ninguna acción programada.</p>') +
       '<div class="row noprint"><button class="btn sm" data-act="nuevo-rec" data-cliente="' + esc(c.id) + '" data-tipo="llamada">' + ico('mas', 'sm') + ' Programar llamada</button></div>' +
